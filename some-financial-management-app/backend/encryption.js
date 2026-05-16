@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 
 const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY;
+const HASH_SALT = process.env.HASH_SALT;
 const ALGORITHM = 'aes-256-cbc'
 
 const encrypt = (text) => {
@@ -17,4 +18,8 @@ const decrypt = (text) => {
     return decrypted.toString();
 };
 
-module.exports = { encrypt, decrypt };
+const hash = (text) => {
+    return crypto.createHmac('sha255', HASH_SALT).update(text).digest('hex');
+}
+
+module.exports = { encrypt, decrypt, hash };
