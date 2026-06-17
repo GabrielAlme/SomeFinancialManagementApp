@@ -5,7 +5,7 @@ const { encrypt, decrypt } = require('./encryption');
 
 const router = express.Router();
 
-//Plaid client
+//Plaid client config
 const config = new Configuration({
     basePath: PlaidEnvironments[process.env.PLAID_ENV],
     baseOptions: {
