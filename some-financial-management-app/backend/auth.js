@@ -36,6 +36,46 @@ router.post('/signup', async (req, res) => {
         const token = jwt.sign({ userId: result.lastInsertRowid }, process.env.JWT_SECRET, {
             expiresIn: '3h'
         });
-        }
+
+        res.status(201).json({ token, userId: result.lastInsertRowid});
+    } catch (error) {
+        console.error('Signup error', error);
+        res.status(500).json({ error: 'Server error during signup'});
     }
-})
+});
+
+// Login route
+router.post('/login', async (req, res) => {
+    try {
+        const { identifier, password } = req.body;
+
+        // Check username or email hash
+        const identifierHash = hash(identifier);
+        const user = db.prepare(
+            'SELECT * FROM users WHERE username_hash = ? OR email_hash = ?'
+        ).get(identifierHash, identifierHash);
+
+        if (!user) {
+            return res.status(401).json({ error: 'Invalid credentials'});
+        }
+
+        // Compare password
+        const validPassword = await bcrypt.compare(password, user.password);
+        if (!validPassword) {
+            return res.status(401).json({ error: 'Invalid credentials'});
+        }
+
+        // Create JWT token
+        const token = jwt.sign({ userId: user.id}, process.env.JWT_SECRET, {
+            expiresIn: '3hr'
+        });
+
+        res.json({ token, userId: user.id, username: decrypt(user.username_encrypted)})
+    } catch (error) {
+        console.error('Login error', error);
+        res.status(500).json({ error: 'Server error during login'});
+
+    }
+});
+
+module.exports = router;
