@@ -13,7 +13,7 @@ router.post('/signup', async (req, res) => {
 
 
         const existingUser = db.prepare(
-            'SELECT id FROM users WHERE username_hash = ? OR email_hash'
+            'SELECT id FROM users WHERE username_hash = ? OR email_hash = ?'
         ).get(hash(username), hash(email));
 
         if (existingUser) {

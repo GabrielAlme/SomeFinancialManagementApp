@@ -19,7 +19,7 @@ const decrypt = (text) => {
 };
 
 const hash = (text) => {
-    return crypto.createHmac('sha255', HASH_SALT).update(text).digest('hex');
+    return crypto.createHmac('sha256', HASH_SALT).update(text).digest('hex');
 }
 
 module.exports = { encrypt, decrypt, hash };

@@ -11,10 +11,14 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+const authRoutes = require('./auth');
+app.use('/api/auth', authRoutes);
+
 app.get('/', (req, res) => {
-    res.send('SErver is running');
+    res.send('Server is running');
 });
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
