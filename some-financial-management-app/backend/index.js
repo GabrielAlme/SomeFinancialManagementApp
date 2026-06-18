@@ -14,6 +14,9 @@ app.use(express.json());
 const authRoutes = require('./auth');
 app.use('/api/auth', authRoutes);
 
+const plaidRoutes = require('./plaid');
+app.use('/api/plaid', plaidRoutes);
+
 app.get('/', (req, res) => {
     res.send('Server is running');
 });

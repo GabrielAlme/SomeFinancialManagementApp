@@ -2,7 +2,6 @@ const express = require('express');
 const { Configuration, PlaidApi, PlaidEnvironments } = require('plaid');
 const db = require('./database');
 const { encrypt, decrypt } = require('./encryption');
-const { all } = require('./auth');
 
 const router = express.Router();
 
@@ -54,15 +53,15 @@ router.post('/exchange-token', async (req, res) => {
 
         // Get financial institution name
         const item = await plaidClient.itemGet({ access_token: accessToken });
-        const istitution = await plaidClient.institutionsGetById({
+        const institution = await plaidClient.institutionsGetById({
             institution_id: item.data.item.institution_id,
             country_codes: ['US'],
         });
-        const institutionName = institution.data.istitution.name;
+        const institutionName = institution.data.institution.name;
 
         //Store permanent encrypted tokens in db
         db.prepare(
-            'INSERT INTO plaid_tokens (user_id, access_token, item_id. institution_name) VALUES (?, ?, ?, ?)'
+            'INSERT INTO plaid_tokens (user_id, access_token, item_id, institution_name) VALUES (?, ?, ?, ?)'
         ).run(userId, encrypt(accessToken), encrypt(itemId), institutionName);
 
         res.json({ success: true, institution_name: institutionName });
@@ -115,4 +114,4 @@ router.get('/accounts/:userId', async (req, res) => {
     }
 });
 
-module.exporst = router;
+module.exports = router;
