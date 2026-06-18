@@ -15,7 +15,8 @@ const authRoutes = require('./auth');
 app.use('/api/auth', authRoutes);
 
 const plaidRoutes = require('./plaid');
-app.use('/api/plaid', plaidRoutes);
+const authenticate = require('./middleware');
+app.use('/api/plaid', authenticate, plaidRoutes);
 
 app.get('/', (req, res) => {
     res.send('Server is running');
