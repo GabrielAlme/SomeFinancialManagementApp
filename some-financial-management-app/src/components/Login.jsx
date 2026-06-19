@@ -19,7 +19,16 @@ function Login({ setToken }) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ identifier, password }),
         });
-    } catch (error){
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            setError(data.error);
+            return;
+        }
+
         
+    } catch (error){
+
     }
 }
