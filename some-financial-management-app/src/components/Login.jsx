@@ -33,4 +33,4 @@ function Login({ setToken }) {
         setError('Could not connect to server');
 
     }
-}
+};
