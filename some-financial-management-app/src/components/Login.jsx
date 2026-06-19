@@ -27,8 +27,10 @@ function Login({ setToken }) {
             return;
         }
 
-        
-    } catch (error){
+        localStorage.setItem('token', data.token);
+        setToken(data.token);
+    } catch (err){
+        setError('Could not connect to server');
 
     }
 }
