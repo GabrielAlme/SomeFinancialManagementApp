@@ -11,26 +11,27 @@ function Login({ setToken }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-    }
+    
 
-    try {
-        const response = await fetch('http://localhost:5000/api/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ identifier, password }),
-        });
+        try {
+            const response = await fetch('http://localhost:5000/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ identifier, password }),
+            });
 
-        const data = await response.json();
+            const data = await response.json();
 
-        if (!response.ok) {
-            setError(data.error);
-            return;
+            if (!response.ok) {
+                setError(data.error);
+                return;
+            }
+
+            localStorage.setItem('token', data.token);
+            setToken(data.token);
+        } catch (err){
+            setError('Could not connect to server');
+
         }
-
-        localStorage.setItem('token', data.token);
-        setToken(data.token);
-    } catch (err){
-        setError('Could not connect to server');
-
-    }
-};
+    };
+}
