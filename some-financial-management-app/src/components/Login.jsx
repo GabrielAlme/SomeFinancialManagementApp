@@ -1,0 +1,23 @@
+import React, { useState } from "react";
+
+function Login({ setToken }) {
+    const [isSignup, setIsSignup] = useState(false);
+    const [identifier, setIdentifier] = useState('');
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+    }
+
+    try {
+        const response = await fetch('http://localhost:5000/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ identifier, password }),
+        });
+    }
+}
