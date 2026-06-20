@@ -42,7 +42,16 @@ function Login({ setToken }) {
             {error && <p className="error">{error}</p>}
 
             <form onSubmit={handleSubmit}>
-                
+                <div className="input-group">
+                    <label>Username or Email:</label>
+                    <input type="text" value={identifier} onChange={(e) => setIdentifier(e.target.value)}/>
+                </div>
+                <div className="input-group">
+                    <label>Password:</label>
+                    <input type="password" value={password} onChange={(e) => setIdentifier(e.target.value)}/>
+                </div>
+
+                <button type="submit">Login</button>
             </form>
         </div>
     )
