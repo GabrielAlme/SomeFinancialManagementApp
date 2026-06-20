@@ -53,6 +53,12 @@ function Login({ setToken }) {
 
                 <button type="submit">Login</button>
             </form>
+
+            <p onClick={() => setShowSignup(true)} className="toggle">
+                Don't have an account? Sign Up
+            </p>
         </div>
-    )
+    );
 }
+
+export default Login;
