@@ -34,4 +34,16 @@ function Login({ setToken }) {
 
         }
     };
+
+    return (
+        <div className="login-container">
+            <h1>Some Financial Manager</h1>
+
+            {error && <p className="error">{error}</p>}
+
+            <form onSubmit={handleSubmit}>
+                
+            </form>
+        </div>
+    )
 }
