@@ -47,6 +47,7 @@ router.post('/signup', async (req, res) => {
 // Login route
 router.post('/login', async (req, res) => {
     try {
+        console.log('Request body:', req.body);
         const { identifier, password } = req.body;
 
         // Check username or email hash

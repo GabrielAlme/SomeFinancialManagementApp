@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 
-function Login({ setToken }) {
-    const [isSignup, setIsSignup] = useState(false);
+
+function Login({ setToken, setShowSignup }) {
+    
     const [identifier, setIdentifier] = useState('');
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
@@ -48,7 +47,7 @@ function Login({ setToken }) {
                 </div>
                 <div className="input-group">
                     <label>Password:</label>
-                    <input type="password" value={password} onChange={(e) => setIdentifier(e.target.value)}/>
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                 </div>
 
                 <button type="submit">Login</button>

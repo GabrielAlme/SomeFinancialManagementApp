@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 function Signup({setToken, setShowSignup}) {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useSTate('');
+    const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
         const handleSubmit = async (e) => {
@@ -12,10 +12,10 @@ function Signup({setToken, setShowSignup}) {
     
 
         try {
-            const response = await fetch('http://localhost:5000/api/auth/login', {
+            const response = await fetch('http://localhost:5000/api/auth/Signup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ identifier, password }),
+                body: JSON.stringify({ username, email, password }),
             });
 
             const data = await response.json();
@@ -42,11 +42,11 @@ function Signup({setToken, setShowSignup}) {
             <form onSubmit={handleSubmit}>
                 <div className="input-group">
                     <label>Username:</label>
-                    <input type="text" value={identifier} onChange={(e) => setUsername(e.target.value)}/>
+                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
                 </div>
                 <div className="input-group">
                     <label>Email:</label>
-                    <input type="text" value={identifier} onChange={(e) => setEmail(e.target.value)}/>
+                    <input type="text" value={email} onChange={(e) => setEmail(e.target.value)}/>
                 </div>
                 <div className="input-group">
                     <label>Password:</label>
