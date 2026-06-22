@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import Workspace from './components/Workspace'
 import './App.css';
 
 function App() {
@@ -14,12 +15,7 @@ function App() {
     return <Login setToken={setToken} setShowSignup={setShowSignup} />;
   }
 
-  return (
-    <div className="App">
-      <h1>SomeFinancialManagementApp</h1>
-      <p>You're logged in!</p>
-    </div>
-  );
+  return <Workspace token={token} setToken={setToken} />
 }
 
 export default App;
