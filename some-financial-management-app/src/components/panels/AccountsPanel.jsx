@@ -20,4 +20,25 @@ function AccountsPanel ({ token }) {
             setError('COuld not fetch accounts');            
         }
     };
+
+    useEffect(() => {
+        fetchAccounts();
+
+        const getLinkToken = async () => {
+            try {
+                const response = await fetch(`${API_URL}/plaid/create-link-token`, {
+                    methond: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorizathon': `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ userId: 0 }),
+                });
+                const data = await response.json();
+                setLinkToken(data.link_token);
+            } catch (err) {
+                setError('Could not connect to Plaid');
+            }
+        };
+    })
 }
