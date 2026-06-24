@@ -10,9 +10,14 @@ function AccountsPanel ({ token }) {
 
     const fetchAccounts = async () => {
         try  {
-            const response = await fetch(`${API_URL}/plaid/accounts/0`)
-        } catch {
-            
+            const response = await fetch(`${API_URL}/plaid/accounts/0`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+            const data = await response.json();
+        } catch (err) {
+            setError('COuld not fetch accounts');            
         }
-    }
+    };
 }
