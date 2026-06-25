@@ -2,13 +2,13 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { usePlaidLink } from 'react-plaid-link';
 import API_URL from '../../config';
 
-function AccountsPanel ({ token }) {
+function BanksPanel ({ token }) {
     const [linkToken, setLinkToken] = useState(null);
-    const [accounts, setAccounts] = useState([]);
+    const [banks, setBanks] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
-    const fetchAccounts = async () => {
+    const fetchBanks = async () => {
         try  {
             const response = await fetch(`${API_URL}/plaid/accounts/0`, {
                 headers: {
