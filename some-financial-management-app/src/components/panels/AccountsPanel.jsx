@@ -17,7 +17,7 @@ function AccountsPanel ({ token }) {
             });
             const data = await response.json();
         } catch (err) {
-            setError('COuld not fetch accounts');            
+            setError('Could not fetch accounts');            
         }
     };
 
@@ -27,7 +27,7 @@ function AccountsPanel ({ token }) {
         const getLinkToken = async () => {
             try {
                 const response = await fetch(`${API_URL}/plaid/create-link-token`, {
-                    methond: 'POST',
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorizathon': `Bearer ${token}`,
@@ -40,5 +40,27 @@ function AccountsPanel ({ token }) {
                 setError('Could not connect to Plaid');
             }
         };
-    })
+        getLinkToken();
+    }, [token]);
+
+    const onSuccess = useCallback(async (publicToken) => {
+        setLoading(true);
+        try {
+            const response = await fetch(`${API_URL}/plaid/create-link-token`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({ publicToken }),
+            });
+            const data = await response.json();
+            if (data.success) {
+                await fetchAccounts();
+            }
+        } catch (err) {
+            setError('Could not link account');
+        }
+        setLoading(false);
+    }, [token]);
 }
