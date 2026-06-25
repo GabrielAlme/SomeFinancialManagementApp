@@ -72,6 +72,14 @@ function AccountsPanel ({ token }) {
     return(
         <div className="accounts-list">
             {error && <p className="error">{error}</p>}
+
+            <div className="accounts-list">
+                {accounts.length === 0 ? ( <p className="no-accounts">No accounts linked yet</p> ) : (
+                    accounts.map((account, index) => (
+                        <div key={index} className="account-item">
+                    ))
+                )}
+            </div>
         </div>
     )
 }
