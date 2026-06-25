@@ -63,4 +63,9 @@ function AccountsPanel ({ token }) {
         }
         setLoading(false);
     }, [token]);
+
+    const {open, ready} = usePlaidLink({
+        token: linkToken,
+        onSuccess,
+    });
 }
