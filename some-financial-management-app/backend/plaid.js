@@ -114,4 +114,19 @@ router.get('/accounts/:userId', async (req, res) => {
     }
 });
 
+router.get('/banks/:userId', async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        const banks = db.prepare(
+            'SELECT id, institution_name, created_at FROM plaid_tokens WHERE user_id = ?'
+        ).all(userId);
+
+        res.json({ banks });
+    } catch (error) {
+        console.error('Banks error:', error);
+        res.status(500).json({ error: 'Could not fetch banks' });
+    }
+});
+
 module.exports = router;
