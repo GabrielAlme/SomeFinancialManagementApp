@@ -68,4 +68,10 @@ function AccountsPanel ({ token }) {
         token: linkToken,
         onSuccess,
     });
+
+    return(
+        <div className="accounts-list">
+            {error && <p className="error">{error}</p>}
+        </div>
+    )
 }
