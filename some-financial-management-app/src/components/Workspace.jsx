@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizeable/css/styles.css';
+import Panel from './Panel';
+import BanksPanel from './panels/BanksPanel';
 
 const ResponsiveGrid = WidthProvider(Responsive);
 
@@ -9,6 +11,13 @@ const availablePanels = [
     { id: 'banks', title: 'Banks' },
 ];
 
+const defaultLayouts = {
+    lg : [
+        { i: 'banks', x: 0, y: 0, w: 3, h: 4}
+    ]
+};
+
+const defaultVisible = ['banks'];
 
 function Workspace({ token, setToken }) {
     const [panels, setPanels] = useState([]);
