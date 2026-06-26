@@ -10,14 +10,15 @@ function BanksPanel ({ token }) {
 
     const fetchBanks = async () => {
         try  {
-            const response = await fetch(`${API_URL}/plaid/accounts/0`, {
+            const response = await fetch(`${API_URL}/plaid/banks/0`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
             });
             const data = await response.json();
-        } catch (err) {
-            setError('Could not fetch accounts');            
+            setBanks(data.banks || []);
+        } catch (err) { 
+            setError('Could not fetch banks');            
         }
     };
 
