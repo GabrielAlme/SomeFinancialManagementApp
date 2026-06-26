@@ -23,7 +23,7 @@ function BanksPanel ({ token }) {
     };
 
     useEffect(() => {
-        fetchAccounts();
+        fetchBanks();
 
         const getLinkToken = async () => {
             try {
@@ -57,10 +57,10 @@ function BanksPanel ({ token }) {
             });
             const data = await response.json();
             if (data.success) {
-                await fetchAccounts();
+                await fetchBanks();
             }
         } catch (err) {
-            setError('Could not link account');
+            setError('Could not link bank');
         }
         setLoading(false);
     }, [token]);
