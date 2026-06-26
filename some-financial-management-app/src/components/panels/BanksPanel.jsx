@@ -71,16 +71,24 @@ function BanksPanel ({ token }) {
     });
 
     return(
-        <div className="accounts-list">
+        <div className="banks-panel">
             {error && <p className="error">{error}</p>}
 
-            <div className="accounts-list">
-                {accounts.length === 0 ? ( <p className="no-accounts">No accounts linked yet</p> ) : (
-                    accounts.map((account, index) => (
-                        <div key={index} className="account-item">
+            <div className="banks-list">
+                {banks.legnth === 0 ? ( <p className="no-banks">No banks linked</p>) : (
+                    banks.map((bank) => (
+                        <div key={bank.id} className="bank-item">
+                            <span className="bank-item-name"> {bank.institution_name} </span>
+                        </div>
                     ))
                 )}
             </div>
+
+            <button className="add-bank-button" onClick={() => open()} disabled={!ready || loading}>
+                {laoding ? 'Connecting...' : '+ Add Bank'}
+            </button>
         </div>
-    )
+    );
 }
+
+export default BanksPanel;
