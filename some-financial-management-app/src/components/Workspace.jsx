@@ -8,7 +8,7 @@ import BanksPanel from './panels/BanksPanel';
 const ResponsiveGrid = WidthProvider(Responsive);
 
 const availablePanels = [
-    { id: 'banks', title: 'Banks' },
+    { id: 'banks', title: 'Banks', component: BanksPanel },
 ];
 
 const defaultLayouts = {
@@ -52,6 +52,8 @@ function Workspace({ token, setToken }) {
         localStorage.removeItem('token');
         setToken(null);
     };
+
+
 
     return (
         <div className="workspace">
