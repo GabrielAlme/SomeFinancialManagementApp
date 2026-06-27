@@ -20,7 +20,15 @@ const defaultLayouts = {
 const defaultVisible = ['banks'];
 
 function Workspace({ token, setToken }) {
-    const [panels, setPanels] = useState([]);
+    const [visiblePanels, setVisiblePanels] = useState(() => {
+        const saved = localStorage.getItem('visiblePanels');
+        return saved ? JSON.parse(saved) : defaultVisible;
+    })
+
+    const [layouts, setLayouts] = useState(() => {
+        const saved = localStorage.getItem('panelLayouts');
+        return saved ? JSON.parse(saved) : defaultLayouts;
+    })
 
     return (
         <div className="workspace">
