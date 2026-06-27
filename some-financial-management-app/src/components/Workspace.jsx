@@ -48,6 +48,11 @@ function Workspace({ token, setToken }) {
         }
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setToken(null);
+    };
+
     return (
         <div className="workspace">
             <div className="menu-bar">
