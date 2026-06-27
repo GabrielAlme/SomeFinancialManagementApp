@@ -53,7 +53,17 @@ function Workspace({ token, setToken }) {
         setToken(null);
     };
 
-
+    {visiblePanels.map(paneId => {
+        const panel = availablePanels.find(p => p.id === panelId);
+        const panelComponent = panel.component;
+        return (
+            <div key={panelId}>
+                <Panel title={panel.title} onClose={() => togglePanel(panelId)}>
+                    <PanelComponent token={token} />
+                </Panel>
+            </div>
+        );
+    })}
 
     return (
         <div className="workspace">
