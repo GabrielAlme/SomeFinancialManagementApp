@@ -69,7 +69,26 @@ function Workspace({ token, setToken }) {
         <div className="workspace">
             <div className="menu-bar">
                 <span className="menu-item">Account</span>
-                <span className="menu-item add-panel-button" onCLick
+
+                <span className="menu-item add-panel-button" onClick={() => setPanelMenuOpen(!panelMenuOpen)}>
+                    Add Panel + {panelMenuOpen && (
+                        <div className="dropdown">
+                            {availablePanels.map(panel =>(
+                                <div key = {panel.id} className="dropdown-item" onClick={(e) => {
+                                    e.stopPropagation();
+                                    togglePanel(panel.id);
+                                }}>
+                                    <span className="checkbox">
+                                        {visiblePanels.includes(panel.id) ? '☑' : '☐'}
+                                    </span>
+                                    {panel.title}
+                                </div>
+                            ))}
+                        </div>
+                        
+                    )}
+                </span>
+
                 <span className="menu-item">View</span>
                 <span className="menu-item">Settings</span>
             </div>
