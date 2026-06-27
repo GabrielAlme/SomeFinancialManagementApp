@@ -30,6 +30,16 @@ function Workspace({ token, setToken }) {
         return saved ? JSON.parse(saved) : defaultLayouts;
     })
 
+    const [panelMenuOpen, setPanelMenuOpen] = useState(false);
+
+    useEffect(() => {
+        localStorage.setItem('visiblePanels', JSON.stringify(visiblePanels));
+    }, [visiblePanels]);
+
+    useEffect(() => {
+        localStorage.setItem('panelLayouts', JSON.stringify(layouts));
+    }, [layouts]);
+
     return (
         <div className="workspace">
             <div className="menu-bar">
