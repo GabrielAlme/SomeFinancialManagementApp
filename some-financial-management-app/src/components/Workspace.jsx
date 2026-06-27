@@ -40,6 +40,14 @@ function Workspace({ token, setToken }) {
         localStorage.setItem('panelLayouts', JSON.stringify(layouts));
     }, [layouts]);
 
+    const togglePanel = (panelId) => {
+        if (visiblePanels.includes(panelId)) {
+            setVisiblePanels(visiblePanels.filter(id => id !== panelId));
+        } else {
+            setVisiblePanels([...visiblePanels, panelId]);
+        }
+    };
+
     return (
         <div className="workspace">
             <div className="menu-bar">
