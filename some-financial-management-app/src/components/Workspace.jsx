@@ -68,32 +68,44 @@ function Workspace({ token, setToken }) {
     return (
         <div className="workspace">
             <div className="menu-bar">
-                <span className="menu-item">Account</span>
+                <div className="menu-left">
+                    <span className="menu-item">Account</span>
+            
+                    <span className="menu-item add-panel-button" onClick={() => setPanelMenuOpen(!panelMenuOpen)}>
+                        Add Panel + {panelMenuOpen && (
+                            <div className="dropdown">
+                                {availablePanels.map(panel =>(
+                                    <div key = {panel.id} className="dropdown-item" onClick={(e) => {
+                                        e.stopPropagation();
+                                        togglePanel(panel.id);
+                                    }}>
+                                        <span className="checkbox">
+                                            {visiblePanels.includes(panel.id) ? '☑' : '☐'}
+                                        </span>
+                                        {panel.title}
+                                    </div>
+                                ))}
+                            </div>
+                            
+                        )}
+                    </span>
 
-                <span className="menu-item add-panel-button" onClick={() => setPanelMenuOpen(!panelMenuOpen)}>
-                    Add Panel + {panelMenuOpen && (
-                        <div className="dropdown">
-                            {availablePanels.map(panel =>(
-                                <div key = {panel.id} className="dropdown-item" onClick={(e) => {
-                                    e.stopPropagation();
-                                    togglePanel(panel.id);
-                                }}>
-                                    <span className="checkbox">
-                                        {visiblePanels.includes(panel.id) ? '☑' : '☐'}
-                                    </span>
-                                    {panel.title}
-                                </div>
-                            ))}
-                        </div>
-                        
-                    )}
-                </span>
-
-                <span className="menu-item">View</span>
-                <span className="menu-item">Settings</span>
+                    <span className="menu-item">View</span>
+                    <span className="menu-item">Settings</span>
+                </div>
             </div>
             <div className="panel-area">
-                {panels.length === 0 && <p>Add a panel from the View menu</p>}
+                <ResponsiveGrid 
+                    classname="layout" layouts={layouts} 
+                    breakpoints={{ lg: 1200, md: 996, sm:768 }}
+                    cols={{ lg: 12, md: 9, sm:6 }} rowHeight={50}
+                    onLayoutChange={(layout, allLayouts) => setLayouts(allLayouts)}
+                    draggableHandle=".panel-header"
+                    isResizeable={true}
+                    isDraggable={true}
+                >
+
+                </ResponsiveGrid>
             </div>
         </div>
     );
