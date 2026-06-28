@@ -5,7 +5,7 @@ import Workspace from './components/Workspace'
 import './App.css';
 
 function App() {
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem('token'));
   const [showSignup, setShowSignup] = useState(false);
 
   if (!token) {
