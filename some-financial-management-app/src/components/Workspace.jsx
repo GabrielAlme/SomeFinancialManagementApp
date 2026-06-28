@@ -104,7 +104,16 @@ function Workspace({ token, setToken }) {
                     isResizeable={true}
                     isDraggable={true}
                 >
-
+                    {visiblePanels.map(panelId => {
+                        const panel = availablePanels.find(p => p.id === panelId);
+                        return (
+                        <div key={panelId}>
+                            <Panel title={panel.title} onClose={() => togglePanel(panelId)}>
+                                {renderPanelContent(panelId)}
+                            </Panel>
+                        </div>
+                        );
+                    })}
                 </ResponsiveGrid>
             </div>
         </div>
