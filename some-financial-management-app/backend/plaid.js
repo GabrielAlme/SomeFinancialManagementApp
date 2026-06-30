@@ -3,6 +3,10 @@ const { Configuration, PlaidApi, PlaidEnvironments } = require('plaid');
 const db = require('./database');
 const { encrypt, decrypt } = require('./encryption');
 
+console.log('PLAID_ENV:', process.env.PLAID_ENV);
+console.log('PLAID_CLIENT_ID:', process.env.PLAID_CLIENT_ID ? 'loaded' : 'MISSING');
+console.log('PLAID_SECRET:', process.env.PLAID_SECRET ? 'loaded' : 'MISSING');
+
 const router = express.Router();
 
 //Plaid client config
@@ -11,7 +15,8 @@ const config = new Configuration({
     baseOptions: {
         headers: {
             'PLAID-CLIENT-ID': process.env.PLAID_CLIENT_ID,
-            'PLAID_SECRET': process.env.PLAID_SECRET,
+            'PLAID-SECRET': process.env.PLAID_SECRET,
+            'Content-Type': 'application/json',
         },
     },
 });

@@ -57,7 +57,7 @@ function Workspace({ token, setToken }) {
         <div className="workspace">
             <div className="menu-bar">
                 <div className="menu-left">
-                    <span className="menu-item">Account</span>
+                    <span className="menu-item">Account </span>
             
                     <span className="menu-item add-panel-button" onClick={() => setPanelMenuOpen(!panelMenuOpen)}>
                         Add Panel + {panelMenuOpen && (
@@ -78,7 +78,7 @@ function Workspace({ token, setToken }) {
                         )}
                     </span>
 
-                    <span className="menu-item">View</span>
+                    <span className="menu-item">View </span>
                     <span className="menu-item">Settings</span>
                 </div>
             </div>

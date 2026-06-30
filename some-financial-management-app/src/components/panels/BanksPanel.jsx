@@ -31,7 +31,7 @@ function BanksPanel ({ token }) {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorizathon': `Bearer ${token}`,
+                        'Authorization': `Bearer ${token}`,
                     },
                     body: JSON.stringify({ userId: 0 }),
                 });
@@ -47,7 +47,7 @@ function BanksPanel ({ token }) {
     const onSuccess = useCallback(async (publicToken) => {
         setLoading(true);
         try {
-            const response = await fetch(`${API_URL}/plaid/create-link-token`, {
+            const response = await fetch(`${API_URL}/plaid/exchange-token`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ function BanksPanel ({ token }) {
             {error && <p className="error">{error}</p>}
 
             <div className="banks-list">
-                {banks.legnth === 0 ? ( <p className="no-banks">No banks linked</p>) : (
+                {banks.length === 0 ? ( <p className="no-banks">No banks linked</p>) : (
                     banks.map((bank) => (
                         <div key={bank.id} className="bank-item">
                             <span className="bank-item-name"> {bank.institution_name} </span>
