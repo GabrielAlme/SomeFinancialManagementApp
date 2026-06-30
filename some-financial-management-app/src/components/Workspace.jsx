@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
-import 'react-resizeable/css/styles.css';
+import 'react-resizable/css/styles.css';
 import Panel from './Panel';
 import BanksPanel from './panels/BanksPanel';
 
@@ -53,18 +53,6 @@ function Workspace({ token, setToken }) {
         setToken(null);
     };
 
-    {visiblePanels.map(paneId => {
-        const panel = availablePanels.find(p => p.id === panelId);
-        const panelComponent = panel.component;
-        return (
-            <div key={panelId}>
-                <Panel title={panel.title} onClose={() => togglePanel(panelId)}>
-                    <PanelComponent token={token} />
-                </Panel>
-            </div>
-        );
-    })}
-
     return (
         <div className="workspace">
             <div className="menu-bar">
@@ -96,20 +84,21 @@ function Workspace({ token, setToken }) {
             </div>
             <div className="panel-area">
                 <ResponsiveGrid 
-                    classname="layout" layouts={layouts} 
+                    className="layout" layouts={layouts} 
                     breakpoints={{ lg: 1200, md: 996, sm:768 }}
                     cols={{ lg: 12, md: 9, sm:6 }} rowHeight={50}
                     onLayoutChange={(layout, allLayouts) => setLayouts(allLayouts)}
                     draggableHandle=".panel-header"
-                    isResizeable={true}
+                    isResizable={true}
                     isDraggable={true}
                 >
                     {visiblePanels.map(panelId => {
                         const panel = availablePanels.find(p => p.id === panelId);
+                        const PanelComponent = panel.component;
                         return (
                         <div key={panelId}>
                             <Panel title={panel.title} onClose={() => togglePanel(panelId)}>
-                                {renderPanelContent(panelId)}
+                                <PanelComponent token={token} />
                             </Panel>
                         </div>
                         );
