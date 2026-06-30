@@ -85,7 +85,7 @@ function BanksPanel ({ token }) {
             </div>
 
             <button className="add-bank-button" onClick={() => open()} disabled={!ready || loading}>
-                {laoding ? 'Connecting...' : '+ Add Bank'}
+                {loading ? 'Connecting...' : '+ Add Bank'}
             </button>
         </div>
     );
