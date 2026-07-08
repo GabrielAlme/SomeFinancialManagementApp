@@ -26,7 +26,8 @@ const plaidClient = new PlaidApi(config);
 //Create plaid link token
 router.post('/create-link-token', async (req, res) => {
     try {
-        const { userId } = req.body
+        const userId = req.userId;
+        console.log('userId:', userId);
 
         const response = await plaidClient.linkTokenCreate({
             user: { client_user_id: String(userId) },
@@ -47,7 +48,8 @@ router.post('/create-link-token', async (req, res) => {
 // Exchange public token for access token (after user connects their bank)
 router.post('/exchange-token', async (req, res) => {
     try {
-        const { publicToken, userId } = req.body;
+        const { publicToken } = req.body;
+        const userId = req.userId;
 
         const response = await plaidClient.itemPublicTokenExchange({
             public_token: publicToken,
@@ -79,7 +81,7 @@ router.post('/exchange-token', async (req, res) => {
 //Get logged in accounts and balances
 router.get('/accounts/:userId', async (req, res) => {
     try {
-        const { userId } = req.params
+        const userId = req.userId;
 
         // Get plaid tokens for user
         const tokens = db.prepare(
@@ -121,7 +123,7 @@ router.get('/accounts/:userId', async (req, res) => {
 
 router.get('/banks/:userId', async (req, res) => {
     try {
-        const { userId } = req.params;
+        const userId = req.userId;
 
         const banks = db.prepare(
             'SELECT id, institution_name, created_at FROM plaid_tokens WHERE user_id = ?'
