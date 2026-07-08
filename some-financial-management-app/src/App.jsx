@@ -29,7 +29,7 @@ function App() {
     window.addEventListener('focus', checkExpiry);
 
     //Auto logout when time expires
-    const timeLeft = expiresAt = Date.now();
+    const timeLeft = expiresAt - Date.now();
     const timeout = setTimeout(checkExpiry, timeLeft);
 
     return () => {
