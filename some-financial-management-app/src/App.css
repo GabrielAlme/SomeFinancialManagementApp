@@ -296,3 +296,28 @@ body {
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+/* React Grid Overrides */
+.react-grid-item.react-grid-placeholder {
+  background-color: #ddd !important;
+  border: 1px dashed #bbb !important;
+  border-radius: 6px;
+  opacity: 0.3;
+}
+
+.react-resizable-handle {
+  background-image: none !important;
+  width: 12px !important;
+  height: 12px !important;
+}
+
+.react-resizable-handle::after{
+  content:'';
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  width: 6px;
+  height: 6px;
+  border-right: 2px solid #bbb;
+  border-bottom: 2px solid #bbb;
+}
