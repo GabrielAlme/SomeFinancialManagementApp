@@ -292,7 +292,7 @@ body {
   border-color: #bbb;
 }
 
-.add-bank-button {
+.add-bank-button:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
