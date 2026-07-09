@@ -235,3 +235,64 @@ body {
   color: #555;
 }
 
+/* Banks Panel */
+.banks-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+}
+
+.banks-list {
+  flex: 1;
+  overflow: auto;
+}
+
+.no-banks {
+  color: #999;
+  font-size: 12px;
+}
+
+.bank-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+.bank-item-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+}
+
+.bank-item-date {
+  font-size: 11px;
+  color: #999;
+}
+
+.add-bank-button {
+  padding: 8px 16px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #555;
+  cursor: pointer;
+  border-radius: 4px;
+  align-self: flex-start;
+}
+
+.add-bank-button:hover {
+  background-color: #e8e8e8;
+  color: #333;
+  border-color: #bbb;
+}
+
+.add-bank-button {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
