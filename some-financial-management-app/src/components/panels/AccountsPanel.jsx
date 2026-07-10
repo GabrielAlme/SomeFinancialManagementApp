@@ -49,6 +49,26 @@ function AccountsPanel({ token }) {
                     <span className="accounts-total-label">Total Balance</span>
                     <span className="accounts-total-amount">${totalbalance.toFixed(2)}</span>
                 </div>
+
+                {Object.keys(grouped).map(institution => (
+                    <div key={institution} className="accounts-group">
+                        <div className="accounts-group-header">{institution}</div>
+                        {grouped[institution].map((account, index) => (
+                            <div key={index} className="account-item">
+                                <div className="account-item-left">
+                                    <span className="account-item-name">{account.name}</span>
+                                    <span className="account-item-type">{account.subtype}</span>
+                                </div>
+                                <div className="account-item-right">
+                                    <span className="account-item-balance">${account.balance_current?.toFixed(2) || '0.00'}</span>
+                                    {account.balance_available !== null && (
+                                        <span className="account-item-avalible">${account.balance_current?.toFixed(2)} available</span>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                ))}
                 </>
             )}
         </div>
