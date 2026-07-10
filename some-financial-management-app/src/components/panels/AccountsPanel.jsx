@@ -47,7 +47,7 @@ function AccountsPanel({ token }) {
                 <>
                 <div className="accounts-total">
                     <span className="accounts-total-label">Total Balance</span>
-                    <span className="accounts-total-amount">${totalbalance.toFixed(2)}</span>
+                    <span className="accounts-total-amount">${totalbalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 </div>
 
                 {Object.keys(grouped).map(institution => (
@@ -61,11 +61,11 @@ function AccountsPanel({ token }) {
                                 </div>
                                 <div className="account-item-right">
                                     <span className="account-item-balance">
-                                        ${account.balance_current?.toFixed(2) || '0.00'}
+                                        ${account.balance_current?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}
                                     </span>
                                     {account.balance_available !== null && (
                                         <span className="account-item-avalible">
-                                            ${account.balance_current?.toFixed(2)} available
+                                            ${account.balance_current?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} available
                                         </span>
                                     )}
                                 </div>
