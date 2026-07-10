@@ -60,9 +60,13 @@ function AccountsPanel({ token }) {
                                     <span className="account-item-type">{account.subtype}</span>
                                 </div>
                                 <div className="account-item-right">
-                                    <span className="account-item-balance">${account.balance_current?.toFixed(2) || '0.00'}</span>
+                                    <span className="account-item-balance">
+                                        ${account.balance_current?.toFixed(2) || '0.00'}
+                                    </span>
                                     {account.balance_available !== null && (
-                                        <span className="account-item-avalible">${account.balance_current?.toFixed(2)} available</span>
+                                        <span className="account-item-avalible">
+                                            ${account.balance_current?.toFixed(2)} available
+                                        </span>
                                     )}
                                 </div>
                             </div>
@@ -71,6 +75,12 @@ function AccountsPanel({ token }) {
                 ))}
                 </>
             )}
+
+            <button className="accounts-refresh" onCLick={fetchAccounts}>
+                Refresh
+            </button>
         </div>
     )
 }
+
+export default AccountsPanel;
