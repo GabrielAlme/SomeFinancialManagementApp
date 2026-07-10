@@ -36,4 +36,21 @@ function AccountsPanel({ token }) {
     const totalbalance = accounts.reduce((sum, acc) => sum + (acc.balance_current || 0), 0);
 
     if(loading) return <p className="accounts-loading">Loading accounts...</p>;
+
+    return (
+        <div className="accounts-panel">
+            {error && <p className="error">{error}</p>}
+
+            {accounts.length === 0 ? (
+                <p className="no-accounts">No accounts found</p>
+            ) : (
+                <>
+                <div className="accounts-total">
+                    <span className="accounts-total-label">Total Balance</span>
+                    <span className="accounts-total-amount">${totalbalance.toFixed(2)}</span>
+                </div>
+                </>
+            )}
+        </div>
+    )
 }
