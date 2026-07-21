@@ -121,6 +121,7 @@ router.get('/accounts/:userId', async (req, res) => {
     }
 });
 
+//Get banks for a user
 router.get('/banks/:userId', async (req, res) => {
     try {
         const userId = req.userId;
@@ -136,4 +137,58 @@ router.get('/banks/:userId', async (req, res) => {
     }
 });
 
+
+//Get transactions for a user
+router.get('/transactions/:userId', async (req, res) => {
+    try {
+        const userId = req.userId;
+
+        const tokens = db.prepare(
+            'SELECT * FROm plaid_tokens WHERE user_id = ?'
+        ).all(userId);
+
+        if (tokens.lenght === 0) {
+            return res.json({ transactions: [] });
+        }
+
+        let allTransactions = [];
+
+        //Get last 6 months of transactions
+        const now = new Date();
+        const past = new Date();
+        past.setDate(now.getDate() - 180);
+
+        const startDate = past.toISOString().split('T')[0];
+        const endDate = now.toISOString().split('T')[0];
+
+        for (const token of tokens) {
+            const accessToken = decrypt(token.access_token);
+
+            const response = await plaidClient.transactionsGet({
+                access_token: accessToken,
+                start_date: startDate,
+                end_date: endDate,
+            });
+
+            const transactions = response.data.transactions.map(t => ({
+                id: t.transaction_id,
+                name: t.name,
+                amount: t.amount,
+                date: t.date,
+                category: t.category ? t.category[0] : 'Uncategorized',
+                institution: token.institutionName,
+            }));
+
+            allTransactions = [...allTransactions, ...transactions];
+        }
+
+        //Sort by newest transaction first
+        allTransactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        res.json({ transactions: allTransactions });
+    } catch (error) {
+        console.error('Transactions error:', error.response?.data || error);
+        res.status(500).json({ error: 'Could not fetch transactions' });
+    }
+});
 module.exports = router;
