@@ -2,21 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
+//Panel imports
 import Panel from './Panel';
 import BanksPanel from './panels/BanksPanel';
 import AccountsPanel from './panels/AccountsPanel';
+import TransactionsPanel from './panels/TransactionsPanel';
 
 const ResponsiveGrid = WidthProvider(Responsive);
 
 const availablePanels = [
     { id: 'banks', title: 'Banks', component: BanksPanel },
     { id: 'accounts', title: 'Accounts', component: AccountsPanel },
+    { id: 'transactions', title: 'Transactions', component: TransactionsPanel },
 ];
 
 const defaultLayouts = {
     lg : [
-        { i: 'banks', x: 0, y: 0, w: 3, h: 4},
-        { i: 'accounts', x: 3, y: 0, w: 5, h: 6},
+        { i: 'banks', x: 0, y: 0, w: 3, h: 4 },
+        { i: 'accounts', x: 3, y: 0, w: 5, h: 6 },
+        { i: 'transactions', x: 8, y: 0, w: 4, h: 8 },
     ]
 };
 
