@@ -489,6 +489,46 @@ body {
   margin-bottom: 4px;
 }
 
+.transaction-item-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.transaction-item-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+}
+
+.transaction-item-category {
+  font-size: 11px;
+  color: #999;
+}
+
+.transaction-item-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.transaction-item-amount {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.transaction-item-amount.positive {
+  color: #2ecc708e;
+}
+
+.transaction-item-amount.negative {
+  color: #e74d3c88;
+}
+
+.transaction-item-institution {
+  font-size: 11px;
+  color: #999;
+}
+
 /* React Grid Overrides */
 .react-grid-item.react-grid-placeholder {
   background-color: #ddd !important;
