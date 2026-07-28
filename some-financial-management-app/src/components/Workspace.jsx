@@ -96,7 +96,6 @@ function Workspace({ token, setToken }) {
             <div className="menu-bar">
                 <div className="menu-left">
                     <span className="menu-item">Account </span>
-            
                     <span className="menu-item add-panel-button" onClick={() => setPanelMenuOpen(!panelMenuOpen)}>
                         Add Panel + {panelMenuOpen && (
                             <div className="dropdown">
@@ -136,7 +135,7 @@ function Workspace({ token, setToken }) {
                         return (
                         <div key={panelId}>
                             <Panel title={panel.title} onClose={() => togglePanel(panelId)}>
-                                <PanelComponent token={token} />
+                                <PanelComponent {...getPanelProps(panelId)} />
                             </Panel>
                         </div>
                         );
