@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import API_URL from '../../config';
 
-function TransactionsPanel ({ token }) {
+function TransactionsPanel({ token, selectedBank, selectedAccount }) {
     const [transactions, setTransactions] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
-    const[filter, setFilter] = useState('');
+    const [filter, setFilter] = useState('');
 
     const fetchTransactions = async () => {
         try {
@@ -13,10 +13,10 @@ function TransactionsPanel ({ token }) {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
-            })
+            });
             const data = await response.json();
             setTransactions(data.transactions || []);
-        }catch (err) {
+        } catch (err) {
             setError('Could not fetch transactions');
         }
         setLoading(false);
@@ -25,13 +25,24 @@ function TransactionsPanel ({ token }) {
     useEffect(() => {
         fetchTransactions();
     }, [token]);
-    
-    const filtered = transactions.filter(t => 
-        t.name.toLowerCase().includes(filter.toLowerCase()) ||
-        t.category.toLowerCase().includes(filter.toLowerCase())
-    );
 
-    //Group by date
+    let filtered = transactions;
+
+    if (selectedBank) {
+        filtered = filtered.filter(t => t.institution === selectedBank);
+    }
+
+    if (selectedAccount) {
+        filtered = filtered.filter(t => t.account_id === selectedAccount);
+    }
+
+    if (filter) {
+        filtered = filtered.filter(t =>
+            t.name.toLowerCase().includes(filter.toLowerCase()) ||
+            t.category.toLowerCase().includes(filter.toLowerCase())
+        );
+    }
+
     const grouped = {};
     filtered.forEach(t => {
         if (!grouped[t.date]) {
@@ -50,7 +61,7 @@ function TransactionsPanel ({ token }) {
                 <input
                     className="transactions-search"
                     type="text"
-                    placeholder="Search"
+                    placeholder="Search transactions..."
                     value={filter}
                     onChange={(e) => setFilter(e.target.value)}
                 />
@@ -59,10 +70,16 @@ function TransactionsPanel ({ token }) {
                 </button>
             </div>
 
+            {(selectedBank || selectedAccount) && (
+                <div className="transactions-filter-tag">
+                    Filtering by: {selectedAccount ? 'Selected account' : selectedBank}
+                </div>
+            )}
+
             {filtered.length === 0 ? (
                 <p className="no-transactions">No transactions found</p>
             ) : (
-                <div className="transaction-list">
+                <div className="transactions-list">
                     {Object.keys(grouped).map(date => (
                         <div key={date} className="transactions-date-group">
                             <div className="transactions-date-header">
@@ -75,12 +92,12 @@ function TransactionsPanel ({ token }) {
                             {grouped[date].map(t => (
                                 <div key={t.id} className="transaction-item">
                                     <div className="transaction-item-left">
-                                        <span className="transaction-item-name">{t.category}</span>
+                                        <span className="transaction-item-name">{t.name}</span>
                                         <span className="transaction-item-category">{t.category}</span>
                                     </div>
                                     <div className="transaction-item-right">
                                         <span className={`transaction-item-amount ${t.amount < 0 ? 'positive' : 'negative'}`}>
-                                            {t.amount < 0 ? '+' : '-'}${Math.abs(t.amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                                            {t.amount < 0 ? '+' : '-'}${Math.abs(t.amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                         </span>
                                         <span className="transaction-item-institution">{t.institution}</span>
                                     </div>
