@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { usePlaidLink } from 'react-plaid-link';
 import API_URL from '../../config';
 
-function BanksPanel ({ token }) {
+function BanksPanel ({ token, selectedBank, onSelectBank }) {
     const [linkToken, setLinkToken] = useState(null);
     const [banks, setBanks] = useState([]);
     const [loading, setLoading] = useState(false);
