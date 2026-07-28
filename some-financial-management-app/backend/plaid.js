@@ -102,6 +102,7 @@ router.get('/accounts/:userId', async (req, res) => {
             });
 
             const accounts = response.data.accounts.map(account => ({
+                account_id: account.account_id,
                 name: account.name,
                 type: account.type,
                 subtype: account.subtype,
@@ -172,6 +173,7 @@ router.get('/transactions/:userId', async (req, res) => {
 
             const transactions = response.data.transactions.map(t => ({
                 id: t.transaction_id,
+                account_id: t.account_id,
                 name: t.name,
                 amount: t.amount,
                 date: t.date,
