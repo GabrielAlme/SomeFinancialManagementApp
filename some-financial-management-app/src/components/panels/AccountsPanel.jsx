@@ -25,8 +25,12 @@ function AccountsPanel({ token, selectedBank, selectedAccount, onSelectAccount }
         fetchAccounts();
     }, [token]);
 
+    const filtered = selectedBank
+        ? accounts.filter(a => a.institution === selectedBank)
+        : accounts;
+
     const grouped = {};
-    accounts.forEach(account => {
+    filtered.forEach(account => {
         if (!grouped[account.institution]) {
             grouped[account.institution] = [];
         }
