@@ -38,6 +38,8 @@ function Workspace({ token, setToken }) {
     })
 
     const [panelMenuOpen, setPanelMenuOpen] = useState(false);
+    const [selectedBank, setSelectedbank] = useState(null);
+    const [selectedAccount, setSelectedAccount] = useState(null);
 
     useEffect(() => {
         localStorage.setItem('visiblePanels', JSON.stringify(visiblePanels));
@@ -58,6 +60,35 @@ function Workspace({ token, setToken }) {
     const handleLogout = () => {
         localStorage.removeItem('token');
         setToken(null);
+    };
+
+    const getPanelProps = (panelId) => {
+        switch (panelId) {
+            case 'banks':
+                return {
+                    token,
+                    selectedBank,
+                    onSelectBank: (bank) => {
+                        setSelectedbank(bank);
+                        setSelectedAccount(null);
+                    }
+                };
+            case 'accounts':
+                return {
+                    token,
+                    selectedBank,
+                    selectedAccount,
+                    onSelectAccount: setSelectedAccount,
+                };
+            case 'transactions':
+                return {
+                    token,
+                    selectedBank,
+                    selectedAccount,
+                };
+            default:
+                return { token }; 
+        }
     };
 
     return (
