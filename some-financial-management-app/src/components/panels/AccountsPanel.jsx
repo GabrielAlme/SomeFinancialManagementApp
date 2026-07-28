@@ -37,7 +37,7 @@ function AccountsPanel({ token, selectedBank, selectedAccount, onSelectAccount }
         grouped[account.institution].push(account);
     });
 
-    const totalbalance = accounts.reduce((sum, acc) => sum + (acc.balance_current || 0), 0);
+    const totalBalance = accounts.reduce((sum, acc) => sum + (acc.balance_current || 0), 0);
 
     if(loading) return <p className="accounts-loading">Loading accounts...</p>;
 

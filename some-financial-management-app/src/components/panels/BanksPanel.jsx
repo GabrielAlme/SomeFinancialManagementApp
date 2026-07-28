@@ -2,14 +2,14 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { usePlaidLink } from 'react-plaid-link';
 import API_URL from '../../config';
 
-function BanksPanel ({ token, selectedBank, onSelectBank }) {
+function BanksPanel({ token, selectedBank, onSelectBank }) {
     const [linkToken, setLinkToken] = useState(null);
     const [banks, setBanks] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
     const fetchBanks = async () => {
-        try  {
+        try {
             const response = await fetch(`${API_URL}/plaid/banks/0`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -17,14 +17,13 @@ function BanksPanel ({ token, selectedBank, onSelectBank }) {
             });
             const data = await response.json();
             setBanks(data.banks || []);
-        } catch (err) { 
-            setError('Could not fetch banks');            
+        } catch (err) {
+            setError('Could not fetch banks');
         }
     };
 
     useEffect(() => {
         fetchBanks();
-
         const getLinkToken = async () => {
             try {
                 const response = await fetch(`${API_URL}/plaid/create-link-token`, {
@@ -65,31 +64,31 @@ function BanksPanel ({ token, selectedBank, onSelectBank }) {
         setLoading(false);
     }, [token]);
 
-    const {open, ready} = usePlaidLink({
+    const { open, ready } = usePlaidLink({
         token: linkToken,
         onSuccess,
     });
 
-    return(
+    return (
         <div className="banks-panel">
             {error && <p className="error">{error}</p>}
-
             <div className="banks-list">
-                {banks.length === 0 ? ( <p className="no-banks">No banks linked</p>) : (
+                {banks.length === 0 ? (
+                    <p className="no-banks">No banks linked</p>
+                ) : (
                     banks.map((bank) => (
-                        <div 
-                            key={bank.id} 
+                        <div
+                            key={bank.id}
                             className={`bank-item ${selectedBank === bank.institution_name ? 'bank-item-selected' : ''}`}
-                            onCLick={() => onSelectBank(
+                            onClick={() => onSelectBank(
                                 selectedBank === bank.institution_name ? null : bank.institution_name
                             )}
                         >
-                            <span className="bank-item-name"> {bank.institution_name} </span>
+                            <span className="bank-item-name">{bank.institution_name}</span>
                         </div>
                     ))
                 )}
             </div>
-
             <button className="add-bank-button" onClick={() => open()} disabled={!ready || loading}>
                 {loading ? 'Connecting...' : '+ Add Bank'}
             </button>
