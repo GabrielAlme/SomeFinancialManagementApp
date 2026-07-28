@@ -148,7 +148,7 @@ router.get('/transactions/:userId', async (req, res) => {
             'SELECT * FROm plaid_tokens WHERE user_id = ?'
         ).all(userId);
 
-        if (tokens.lenght === 0) {
+        if (tokens.length === 0) {
             return res.json({ transactions: [] });
         }
 
@@ -163,6 +163,7 @@ router.get('/transactions/:userId', async (req, res) => {
         const endDate = now.toISOString().split('T')[0];
 
         for (const token of tokens) {
+            console.log('Token data:', token);
             const accessToken = decrypt(token.access_token);
 
             const response = await plaidClient.transactionsGet({
@@ -178,7 +179,7 @@ router.get('/transactions/:userId', async (req, res) => {
                 amount: t.amount,
                 date: t.date,
                 category: t.category ? t.category[0] : 'Uncategorized',
-                institution: token.institutionName,
+                institution: token.institution_name,
             }));
 
             allTransactions = [...allTransactions, ...transactions];

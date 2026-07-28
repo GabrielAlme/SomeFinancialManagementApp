@@ -28,6 +28,9 @@ function TransactionsPanel({ token, selectedBank, selectedAccount }) {
 
     let filtered = transactions;
 
+    console.log('selectedBank:', selectedBank);
+    console.log('transaction institutions:', transactions.map(t => t.institution));
+
     if (selectedBank) {
         filtered = filtered.filter(t => t.institution === selectedBank);
     }
