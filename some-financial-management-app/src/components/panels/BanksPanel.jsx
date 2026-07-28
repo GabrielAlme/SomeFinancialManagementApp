@@ -77,7 +77,13 @@ function BanksPanel ({ token }) {
             <div className="banks-list">
                 {banks.length === 0 ? ( <p className="no-banks">No banks linked</p>) : (
                     banks.map((bank) => (
-                        <div key={bank.id} className="bank-item">
+                        <div 
+                            key={bank.id} 
+                            className={`bank-item ${selectedBank === bank.institution_name ? 'bank-item-selected' : ''}`}
+                            onCLick={() => onSelectBank(
+                                selectedBank === bank.institution_name ? null : bank.institution_name
+                            )}
+                        >
                             <span className="bank-item-name"> {bank.institution_name} </span>
                         </div>
                     ))
