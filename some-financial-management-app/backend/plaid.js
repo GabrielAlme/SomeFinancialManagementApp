@@ -194,4 +194,65 @@ router.get('/transactions/:userId', async (req, res) => {
         res.status(500).json({ error: 'Could not fetch transactions' });
     }
 });
+
+// Get recurring transactions from Plaid
+router.get('/recurring/:userId', async (req, res) =>{
+    try {
+        const userId = req.userId;
+
+        const tokens = db.prepare(
+            'SELECT * FROM plaid_tokens WHERE user_id = ?'
+        ).all(userId);
+
+        if (tokens.length === 0) {
+            return res.json({ rescurring: [] })
+        }
+
+        let allRecurring = [];
+
+        for (const token of tokens) {
+            const accessToken = decrypt(token.access_token);
+
+            const response = await plaidClient.transactionsRecurringGet({
+                access_token: accessToken,
+            });
+
+            const outflows = (response.data.outflow_streams || []).map(stream =>({
+                id: stream.stream_id,
+                name: stream.description,
+                amount: stream.average_amount.amount,
+                frequency: stream.frequency,
+                last_date: stream.last_date,
+                status: stream.status,
+                category: stream.category ? stream.category[0] : 'Uncategorized',
+                institution: token.institution_name,
+                type: 'outflow',
+            }));
+
+            const inflows = (response.data.inflow_streams || []).map(stream => ({
+                id: stream.stream_id,
+                name: stream.description,
+                amount: stream.average_amount.amount,
+                frequency: stream.frequency,
+                last_date: stream.last_date,
+                status: stream.status,
+                category: stream.category ? stream.category[0] : 'Uncategorized',
+                institution: token.institution_name,
+                type: 'inflow',
+            }));
+
+            allRecurring = [...allRecurring, ...outflows, ...inflows];
+        }
+
+        res.json({ recurring: allRecurring });
+    }catch (error) {
+        console.error('Recurring error:', error.response?.data || error);
+        res.status(500).json({ error: 'Could not fetch recurring transactions'});
+    }
+});
+
+
+
+
+
 module.exports = router;
