@@ -4,9 +4,13 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 //Panel imports
 import Panel from './Panel';
-import BanksPanel from './panels/BanksPanel';
-import AccountsPanel from './panels/AccountsPanel';
-import TransactionsPanel from './panels/TransactionsPanel';
+import { 
+    BanksPanel, 
+    AccountsPanel, 
+    TransactionsPanel, 
+    MonthlyPaymentsPanel, 
+    } from './panels';
+
 
 const ResponsiveGrid = WidthProvider(Responsive);
 
@@ -14,6 +18,7 @@ const availablePanels = [
     { id: 'banks', title: 'Banks', component: BanksPanel },
     { id: 'accounts', title: 'Accounts', component: AccountsPanel },
     { id: 'transactions', title: 'Transactions', component: TransactionsPanel },
+    { id: 'monthly', title: 'Monthly Payments', component: MonthlyPaymentsPanel },
 ];
 
 const defaultLayouts = {
