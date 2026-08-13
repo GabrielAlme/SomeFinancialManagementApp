@@ -21,5 +21,17 @@ function MonthlyPaymentsPanel({ token }) {
         setLoading(false);
     };
 
+    useEffect(() => {
+        fetchRecurring();
+    }, [token]);
+    
+    const outflows = recurring.filter(r => r.type === 'outflow')
+    const inflows = recurring.filter(r => r.type === 'inflow')
+    const totalMonthlyOut = outflows.reduce((sum, r) => sum + Math.abs(r.amount), 0);
+    const totalMonthlyIn = inflows.reduce((sum, r) => sum + Math.abs(r.amount), 0);
+
+    if (loading) return <p className="monthly-loading">Loading monthly payments...</p>;
+
+
     
 }
