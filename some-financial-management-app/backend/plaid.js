@@ -97,7 +97,7 @@ router.get('/accounts/:userId', async (req, res) => {
         for (const token of tokens) {
             const accessToken = decrypt(token.access_token);
 
-            const response = await plaidClient.accountsBalanceGet({
+            const response = await plaidClient.accountsGet({
                 access_token: accessToken,
             });
 
