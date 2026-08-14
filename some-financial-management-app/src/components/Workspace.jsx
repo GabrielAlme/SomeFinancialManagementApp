@@ -14,6 +14,8 @@ import {
 
 const ResponsiveGrid = WidthProvider(Responsive);
 
+
+//Panels available to user
 const availablePanels = [
     { id: 'banks', title: 'Banks', component: BanksPanel },
     { id: 'accounts', title: 'Accounts', component: AccountsPanel },
@@ -21,11 +23,13 @@ const availablePanels = [
     { id: 'monthly', title: 'Monthly Payments', component: MonthlyPaymentsPanel },
 ];
 
+//Default sizes of panels
 const defaultLayouts = {
     lg : [
-        { i: 'banks', x: 0, y: 0, w: 3, h: 4 },
-        { i: 'accounts', x: 3, y: 0, w: 5, h: 6 },
-        { i: 'transactions', x: 8, y: 0, w: 4, h: 8 },
+        { i: 'banks', x: 0, y: 0, w: 2, h: 6 },
+        { i: 'accounts', x: 0, y: 7, w: 2, h: 9 },
+        { i: 'transactions', x: 2, y: 0, w: 4, h: 15 },
+        { i: 'monthly', x: 6, y: 0, w: 3, h: 15 },
     ]
 };
 
@@ -59,6 +63,15 @@ function Workspace({ token, setToken }) {
             setVisiblePanels(visiblePanels.filter(id => id !== panelId));
         } else {
             setVisiblePanels([...visiblePanels, panelId]);
+
+            // Add default layout for the new panel if it doesn't exist
+            const defaultLayout = defaultLayouts.lg.find(l => l.i === panelId);
+            if (defaultLayout) {
+                setLayouts(prev => ({
+                    ...prev,
+                    lg: [...(prev.lg || []), defaultLayout],
+                }));
+            }
         }
     };
 
