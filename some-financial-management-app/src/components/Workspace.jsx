@@ -109,6 +109,53 @@ function Workspace({ token, setToken }) {
         }
     };
 
+    const [previousLayouts, setPreviousLayouts] = useState(null);
+const [draggingId, setDraggingId] = useState(null);
+
+const handleDragStart = (layout, oldItem) => {
+    setPreviousLayouts(JSON.parse(JSON.stringify(layouts)));
+    setDraggingId(oldItem.i);
+};
+
+const handleDragStop = (layout) => {
+    const panelAreaEl = document.querySelector('.panel-area');
+    if (!panelAreaEl) return;
+
+    const maxRows = Math.floor(panelAreaEl.clientHeight / 50);
+    const maxCols = 12;
+
+    // Check if every panel fits within bounds
+    const isValid = layout.every(item => 
+        item.x >= 0 &&
+        item.x + item.w <= maxCols &&
+        item.y >= 0 &&
+        item.y + item.h <= maxRows
+    );
+
+    if (!isValid) {
+        setLayouts(previousLayouts);
+    }
+
+    setDraggingId(null);
+    setPreviousLayouts(null);
+};
+
+const handleLayoutChange = (layout, allLayouts) => {
+    if (draggingId) {
+        // While dragging, only update the dragged panel's position
+        // Keep all other panels frozen
+        const frozenLayout = previousLayouts.lg.map(item => {
+            if (item.i === draggingId) {
+                return layout.find(l => l.i === draggingId) || item;
+            }
+            return item;
+        });
+        setLayouts({ ...allLayouts, lg: frozenLayout });
+    } else {
+        setLayouts(allLayouts);
+    }
+};
+
     return (
         <div className="workspace">
             <div className="menu-bar">
@@ -138,15 +185,20 @@ function Workspace({ token, setToken }) {
                 </div>
             </div>
             <div className="panel-area">
-                <ResponsiveGrid 
-                    className="layout" layouts={layouts} 
-                    breakpoints={{ lg: 1200, md: 996, sm:768 }}
-                    cols={{ lg: 12, md: 9, sm:6 }} rowHeight={50}
-                    onLayoutChange={(layout, allLayouts) => setLayouts(allLayouts)}
-                    draggableHandle=".panel-header"
-                    isResizable={true}
-                    isDraggable={true}
-                >
+                <ResponsiveGrid
+    className="layout"
+    layouts={layouts}
+    breakpoints={{ lg: 1200, md: 996, sm: 768 }}
+    cols={{ lg: 12, md: 9, sm: 6 }}
+    rowHeight={50}
+    onLayoutChange={handleLayoutChange}
+    onDragStart={handleDragStart}
+    onDragStop={handleDragStop}
+    draggableHandle=".panel-header"
+    isResizable={true}
+    isDraggable={true}
+    compactType={null}
+>
                     {visiblePanels.map(panelId => {
                         const panel = availablePanels.find(p => p.id === panelId);
                         const PanelComponent = panel.component;
